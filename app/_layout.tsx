@@ -13,7 +13,7 @@ import "react-native-reanimated";
 import { RootProvider, useRootContext } from "@/context/RootContext";
 import { createTamagui, TamaguiProvider, View } from "tamagui";
 import { defaultConfig } from "@tamagui/config/v4";
-import { themes } from "@/config/tamagui.config";
+import { themes, fonts } from "@/config/tamagui.config";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -22,7 +22,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "index",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -31,6 +31,8 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    Bookerly: require("../fonts/Bookerly/Bookerly.ttf"),
+    AmazonEmber: require("../fonts/amazon-ember/Amazon-Ember.ttf"),
     ...FontAwesome.font,
   });
 
@@ -65,6 +67,7 @@ function RootLayoutNav() {
   const config = createTamagui({
     ...defaultConfig,
     themes,
+    fonts,
   });
 
   return (
@@ -74,7 +77,7 @@ function RootLayoutNav() {
         defaultTheme={mode === "dark" ? "dark" : "light"}
       >
         <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="index" />
           <Stack.Screen name="modal" options={{ presentation: "modal" }} />
         </Stack>
       </TamaguiProvider>

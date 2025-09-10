@@ -156,3 +156,30 @@ export const themes: TamaguiThemes =
     ? {}
     : (generatedThemes as any);
 
+const BookerlyFont = createFont({
+  family: "Bookerly",
+  size: {
+    1: 12,
+    2: 14,
+    3: 18,
+    4: 20,
+  },
+});
+
+const AmazonEmberFont = createFont({
+  family: "AmazonEmber",
+  size: {
+    1: 12,
+    2: 14,
+    3: 18,
+    4: 20,
+  },
+});
+
+export const fonts = {
+  body: AmazonEmberFont,
+  AmazonEmber: AmazonEmberFont,
+  Bookerly: BookerlyFont,
+};
+
+export type FontType = "Bookerly" | "AmazonEmberFont";

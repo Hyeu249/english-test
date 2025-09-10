@@ -12,36 +12,22 @@ import {
   Text,
 } from "tamagui";
 import { useRootContext } from "@/context/RootContext";
+import { useRouter } from "expo-router";
 
 export default function TabOneScreen() {
   const { setMode } = useRootContext();
+  const router = useRouter();
+
   return (
     <YStack flex={1}>
       <Text>Tab One</Text>
       <Button
-        onPress={() =>
-          setMode((state) => (state === "dark" ? "light" : "dark"))
-        }
+        onPress={() => {
+          router.push("/QuizBox");
+        }}
       >
         Plain
       </Button>
     </YStack>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: "80%",
-  },
-});
