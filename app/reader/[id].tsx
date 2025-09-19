@@ -20,18 +20,21 @@ import Outline from "@/components/Outline";
 import { getDocList } from "@/api/action";
 
 export function DrawersHeader({
+  title,
+  outline,
   id,
   setIdnum,
 }: {
+  title: string;
+  outline: any[];
   id: string;
   setIdnum: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const navigation = useNavigation();
   const [openLayoutEditer, setOpenLayoutEditer] = useState(false);
   const [openOutline, setOpenOutline] = useState(false);
-  const [outline, setOutline] = useState<any[]>([]);
 
-  const setOptions = (title: string) => {
+  useEffect(() => {
     navigation.setOptions({
       title: "",
       headerShadowVisible: false,
@@ -49,20 +52,7 @@ export function DrawersHeader({
         />
       ),
     });
-  };
-
-  useEffect(() => {
-    const init = async () => {
-      const book = await getDocList(
-        "studio.sheet",
-        [["id", "=", id]],
-        ["name", "outline"]
-      );
-      if (book.length) setOptions(book[0].name);
-      if (book.length) setOutline(book[0].outline);
-    };
-    init();
-  }, []);
+  }, [title]);
 
   return (
     <>
@@ -80,7 +70,25 @@ export default function ReaderScreen() {
   const [oldPage, setOldPage] = useState(1);
   const [page, setPage] = useState(16);
   const [text, setText] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [outline, setOutline] = useState<any[]>([]);
+  const [length, setLength] = useState<number>(0);
+
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  useEffect(() => {
+    const init = async () => {
+      const book = await getDocList(
+        "studio.sheet",
+        [["id", "=", id]],
+        ["name", "outline", "page_ids"]
+      );
+      if (book.length) setTitle(book[0].name);
+      if (book.length) setOutline(book[0].outline);
+      if (book.length) setLength(book[0].page_ids.length);
+    };
+    init();
+  }, []);
 
   useEffect(() => {
     const init = async () => {
@@ -120,7 +128,12 @@ export default function ReaderScreen() {
 
   return (
     <YStack flex={1} backgroundColor={"$background"}>
-      <DrawersHeader id={id} setIdnum={setIdnum} />
+      <DrawersHeader
+        id={id}
+        setIdnum={setIdnum}
+        title={title}
+        outline={outline}
+      />
       <XStack flex={1}>
         <MoveTab
           type="left"
@@ -132,7 +145,7 @@ export default function ReaderScreen() {
         <MoveTab
           type="right"
           isBookmark={true}
-          onPress={() => setPage((prev) => prev + 1)}
+          onPress={() => setPage((prev) => (prev < length ? prev + 1 : prev))}
         />
       </XStack>
       <YStack height={106}>
@@ -169,11 +182,13 @@ export default function ReaderScreen() {
               setOldPage(page);
               setPage(value);
             }}
-            max={272}
+            max={length}
           />
         </XStack>
         <XStack justifyContent="center">
-          <Text fontSize={12}>Page {page} of 272 • 25%</Text>
+          <Text fontSize={12}>
+            Page {page} of {length} • 25%
+          </Text>
         </XStack>
       </YStack>
     </YStack>
