@@ -7,6 +7,7 @@ import {
   AnimatePresence,
   Button,
   Separator,
+  Slider,
 } from "tamagui";
 import { useNavigation, useLocalSearchParams, useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -135,13 +136,45 @@ export default function ReaderScreen() {
         />
       </XStack>
 
-      <XStack height={106} backgroundColor={"yellow"}>
-        <Text>Player</Text>
-      </XStack>
+      <YStack height={106} paddingLeft={70} paddingRight={150}>
+        <XStack width={"100%"} alignItems="center">
+          <XStack
+            width={70}
+            height={70}
+            borderWidth={1}
+            borderRadius={6}
+            marginRight={20}
+            justifyContent="center"
+            alignItems="center"
+            padding={"$1"}
+            boxShadow={"rgb(0 0 0 / 32%) 0px 2px 4px 0px"}
+            cursor="pointer"
+            userSelect="none"
+            pressStyle={{
+              scale: 0.95,
+            }}
+          >
+            <Text textAlign="center" fontSize={14}>
+              Back to 50
+            </Text>
+          </XStack>
+          <Progress />
+        </XStack>
+      </YStack>
     </YStack>
   );
 }
 
+export function Progress() {
+  return (
+    <Slider flex={1} defaultValue={[50]} max={100} step={1}>
+      <Slider.Track>
+        <Slider.TrackActive />
+      </Slider.Track>
+      <Slider.Thumb size="$2" index={0} circular />
+    </Slider>
+  );
+}
 export function Bookmark() {
   const [isMark, setIsMark] = useState(false);
 
