@@ -77,6 +77,7 @@ export function DrawersHeader({
 }
 export default function ReaderScreen() {
   const [idnum, setIdnum] = useState(0);
+  const [oldPage, setOldPage] = useState(1);
   const [page, setPage] = useState(16);
   const [text, setText] = useState("");
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -156,24 +157,51 @@ export default function ReaderScreen() {
             pressStyle={{
               scale: 0.95,
             }}
+            onPress={() => setPage(oldPage)}
           >
             <Text textAlign="center" fontSize={14}>
-              Back to 50
+              Back to {oldPage}
             </Text>
           </XStack>
-          <Progress />
+          <Progress
+            value={page}
+            onChange={(value) => {
+              setOldPage(page);
+              setPage(value);
+            }}
+            max={272}
+          />
         </XStack>
         <XStack justifyContent="center">
-          <Text fontSize={12}>Page 52 of 211 • 25%</Text>
+          <Text fontSize={12}>Page {page} of 272 • 25%</Text>
         </XStack>
       </YStack>
     </YStack>
   );
 }
 
-export function Progress() {
+export function Progress({
+  max,
+  value,
+  onChange,
+}: {
+  max: number;
+  value: number;
+  onChange: (value: number) => void;
+}) {
   return (
-    <Slider flex={1} defaultValue={[50]} max={100} step={1}>
+    <Slider
+      flex={1}
+      defaultValue={[50]}
+      value={[value]}
+      min={1}
+      max={max}
+      step={1}
+      onValueChange={(vals) => {
+        console.log("Đang chọn:", vals[0]);
+        onChange(vals[0]);
+      }}
+    >
       <Slider.Track>
         <Slider.TrackActive />
       </Slider.Track>
