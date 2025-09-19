@@ -120,7 +120,6 @@ export default function ReaderScreen() {
   return (
     <YStack flex={1} backgroundColor={"$background"}>
       <DrawersHeader id={id} setIdnum={setIdnum} />
-
       <XStack flex={1}>
         <MoveTab
           type="left"
@@ -135,9 +134,13 @@ export default function ReaderScreen() {
           onPress={() => setPage((prev) => prev + 1)}
         />
       </XStack>
-
-      <YStack height={106} paddingLeft={70} paddingRight={150}>
-        <XStack width={"100%"} alignItems="center">
+      <YStack height={106}>
+        <XStack
+          width={"100%"}
+          alignItems="center"
+          paddingLeft={70}
+          paddingRight={150}
+        >
           <XStack
             width={70}
             height={70}
@@ -159,6 +162,9 @@ export default function ReaderScreen() {
             </Text>
           </XStack>
           <Progress />
+        </XStack>
+        <XStack justifyContent="center">
+          <Text fontSize={12}>Page 52 of 211 • 25%</Text>
         </XStack>
       </YStack>
     </YStack>
