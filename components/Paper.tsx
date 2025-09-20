@@ -1,36 +1,41 @@
 import { ScrollView, Text, XStack, Paragraph } from "tamagui";
 import React, { useState, useEffect } from "react";
+import { Font } from "@/types";
 
 type Props = {
   text: string;
+  font: string;
+  size: number;
 };
 
 type PageProps = {
   left: string;
   right: string;
+  font: string;
+  size: number;
 };
 
-export default ({ text }: Props) => {
+export default ({ text, font, size }: Props) => {
   const [column, setColumn] = useState<1 | 2>(2);
   const [left, right] = splitBalanced(text);
 
   return (
     <ScrollView contentContainerStyle={{ padding: 20 }}>
       {column == 1 ? (
-        <OnePage left={left} right={right} />
+        <OnePage left={left} right={right} font={font} size={size} />
       ) : (
-        <TwoPage left={left} right={right} />
+        <TwoPage left={left} right={right} font={font} size={size} />
       )}
     </ScrollView>
   );
 };
 
-export function OnePage({ left, right }: PageProps) {
+export function OnePage({ left, right, font, size }: PageProps) {
   return (
     <XStack gap={60}>
       <Text
-        fontFamily="$Bookerly"
-        fontSize={22}
+        fontFamily={`$${font}`}
+        fontSize={size}
         lineHeight={36}
         textAlign="justify"
       >
@@ -42,13 +47,13 @@ export function OnePage({ left, right }: PageProps) {
   );
 }
 
-export function TwoPage({ left, right }: PageProps) {
+export function TwoPage({ left, right, font, size }: PageProps) {
   return (
     <XStack gap={60}>
       <Text
         width={"50%"}
-        fontFamily="$Bookerly"
-        fontSize={22}
+        fontFamily={`$${font}`}
+        fontSize={size}
         lineHeight={36}
         textAlign="justify"
       >
@@ -56,8 +61,8 @@ export function TwoPage({ left, right }: PageProps) {
       </Text>
       <Text
         width={"50%"}
-        fontFamily="$Bookerly"
-        fontSize={22}
+        fontFamily={`$${font}`}
+        fontSize={size}
         lineHeight={36}
         textAlign="justify"
       >

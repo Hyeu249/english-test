@@ -13,14 +13,22 @@ import {
 } from "tamagui";
 import { SquareMinus, SquareEqual } from "@tamagui/lucide-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { Font } from "@/types";
 
-export default function LayoutEditer() {
+type Props = {
+  font: string;
+  setFont: React.Dispatch<React.SetStateAction<Font>>;
+  size: number;
+  setSize: React.Dispatch<React.SetStateAction<number>>;
+};
+
+export default function LayoutEditer({ font, setFont, size, setSize }: Props) {
   return (
     <YStack flex={1}>
-      <FontEditer />
+      <FontEditer font={font} setFont={setFont} />
 
       <Divider />
-      <FontSizeEditer />
+      <FontSizeEditer size={size} setSize={setSize} />
 
       <Divider />
       <PageColorEditer />
@@ -77,10 +85,13 @@ export function MarginEditor() {
     </YStack>
   );
 }
-export function FontEditer() {
-  const [font, setFont] = useState<"AmazonEmber" | "Bookerly" | "Bookerly2">(
-    "Bookerly"
-  );
+
+type FontProps = {
+  font: string;
+  setFont: React.Dispatch<React.SetStateAction<Font>>;
+};
+
+export function FontEditer({ font, setFont }: FontProps) {
   const fonts = ["Bookerly", "AmazonEmber", "Bookerly2"];
   return (
     <YStack>
@@ -130,7 +141,12 @@ export function FontEditer() {
 const Divider = () => (
   <Separator marginVertical={"$4"} backgroundColor={"$black11"} />
 );
-export function FontSizeEditer() {
+
+type SizeProps = {
+  size: number;
+  setSize: React.Dispatch<React.SetStateAction<number>>;
+};
+export function FontSizeEditer({ size, setSize }: SizeProps) {
   return (
     <XStack
       marginVertical={"$2"}
@@ -144,7 +160,16 @@ export function FontSizeEditer() {
       </Text>
 
       {/* Slider */}
-      <Slider flex={1} defaultValue={[50]} max={100} step={1}>
+      <Slider
+        flex={1}
+        defaultValue={[50]}
+        max={70}
+        step={1}
+        value={[size]}
+        onValueChange={(vals) => {
+          setSize(vals[0]);
+        }}
+      >
         <Slider.Track>
           <Slider.TrackActive />
         </Slider.Track>

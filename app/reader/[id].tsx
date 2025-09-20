@@ -18,16 +18,25 @@ import Drawer from "@/components/Drawer";
 import LayoutEditer from "@/components/LayoutEditer";
 import Outline from "@/components/Outline";
 import { getDocList } from "@/api/action";
+import { Font } from "@/types";
 
 export function DrawersHeader({
+  font,
+  size,
+  setSize,
   title,
   outline,
   id,
   setIdnum,
+  setFont,
 }: {
   title: string;
   outline: any[];
+  font: string;
   id: string;
+  size: number;
+  setSize: React.Dispatch<React.SetStateAction<number>>;
+  setFont: React.Dispatch<React.SetStateAction<Font>>;
   setIdnum: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const navigation = useNavigation();
@@ -57,7 +66,12 @@ export function DrawersHeader({
   return (
     <>
       <Drawer isOpen={openLayoutEditer} setOpen={setOpenLayoutEditer}>
-        <LayoutEditer />
+        <LayoutEditer
+          font={font}
+          setFont={setFont}
+          size={size}
+          setSize={setSize}
+        />
       </Drawer>
       <Drawer padding={10} isOpen={openOutline} setOpen={setOpenOutline}>
         <Outline outline={outline} setIdnum={setIdnum} />
@@ -65,6 +79,7 @@ export function DrawersHeader({
     </>
   );
 }
+
 export default function ReaderScreen() {
   const [idnum, setIdnum] = useState(0);
   const [oldPage, setOldPage] = useState(1);
@@ -73,6 +88,8 @@ export default function ReaderScreen() {
   const [title, setTitle] = useState<string>("");
   const [outline, setOutline] = useState<any[]>([]);
   const [length, setLength] = useState<number>(0);
+  const [font, setFont] = useState<Font>("Bookerly");
+  const [size, setSize] = useState<number>(18);
 
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -133,6 +150,10 @@ export default function ReaderScreen() {
         setIdnum={setIdnum}
         title={title}
         outline={outline}
+        font={font}
+        setFont={setFont}
+        size={size}
+        setSize={setSize}
       />
       <XStack flex={1}>
         <MoveTab
@@ -140,7 +161,7 @@ export default function ReaderScreen() {
           onPress={() => setPage((prev) => (prev > 1 ? prev - 1 : 1))}
         />
         <XStack flex={1}>
-          <Paper text={text} />
+          <Paper font={font} text={text} size={size} />
         </XStack>
         <MoveTab
           type="right"
