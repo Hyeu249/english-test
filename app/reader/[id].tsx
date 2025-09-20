@@ -187,7 +187,7 @@ export default function ReaderScreen() {
         </XStack>
         <XStack justifyContent="center">
           <Text fontSize={12}>
-            Page {page} of {length} • 25%
+            Page {page} of {length} • {Math.round((page / (length - 1)) * 100)}%
           </Text>
         </XStack>
       </YStack>
