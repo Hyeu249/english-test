@@ -218,7 +218,7 @@ export function LineSpacingEditer({ height, setHeight }: LineSpacingProps) {
   return (
     <YStack>
       <Text fontSize={16} fontWeight={"600"} marginBottom={"$7"}>
-        Font
+        Line Spacing
       </Text>
 
       {/* Slider */}
