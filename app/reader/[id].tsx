@@ -18,7 +18,7 @@ import Drawer from "@/components/Drawer";
 import LayoutEditer from "@/components/LayoutEditer";
 import Outline from "@/components/Outline";
 import { getDocList } from "@/api/action";
-import { Font, Margin } from "@/types";
+import { Font, Margin, Column } from "@/types";
 
 export function DrawersHeader({
   font,
@@ -28,24 +28,26 @@ export function DrawersHeader({
   setSize,
   title,
   outline,
-  id,
+  column,
   setIdnum,
   setFont,
   setMargin,
   setHeight,
+  setColumn,
 }: {
   margin: Margin;
   height: number;
   title: string;
   outline: any[];
   font: string;
-  id: string;
   size: number;
+  column: Column;
   setMargin: React.Dispatch<React.SetStateAction<Margin>>;
   setHeight: React.Dispatch<React.SetStateAction<number>>;
   setSize: React.Dispatch<React.SetStateAction<number>>;
   setFont: React.Dispatch<React.SetStateAction<Font>>;
   setIdnum: React.Dispatch<React.SetStateAction<number>>;
+  setColumn: React.Dispatch<React.SetStateAction<Column>>;
 }) {
   const navigation = useNavigation();
   const [openLayoutEditer, setOpenLayoutEditer] = useState(false);
@@ -83,6 +85,8 @@ export function DrawersHeader({
           setMargin={setMargin}
           height={height}
           setHeight={setHeight}
+          column={column}
+          setColumn={setColumn}
         />
       </Drawer>
       <Drawer padding={10} isOpen={openOutline} setOpen={setOpenOutline}>
@@ -104,6 +108,7 @@ export default function ReaderScreen() {
   const [size, setSize] = useState<number>(18);
   const [margin, setMargin] = useState<Margin>(0);
   const [height, setHeight] = useState<number>(36);
+  const [column, setColumn] = useState<Column>(2);
 
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -160,7 +165,6 @@ export default function ReaderScreen() {
   return (
     <YStack flex={1} backgroundColor={"$background"}>
       <DrawersHeader
-        id={id}
         setIdnum={setIdnum}
         title={title}
         outline={outline}
@@ -172,6 +176,8 @@ export default function ReaderScreen() {
         setMargin={setMargin}
         height={height}
         setHeight={setHeight}
+        column={column}
+        setColumn={setColumn}
       />
       <XStack flex={1}>
         <MoveTab
@@ -185,6 +191,7 @@ export default function ReaderScreen() {
             size={size}
             margin={margin}
             height={height}
+            column={column}
           />
         </XStack>
         <MoveTab

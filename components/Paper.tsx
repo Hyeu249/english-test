@@ -1,6 +1,6 @@
 import { ScrollView, Text, XStack, Paragraph } from "tamagui";
 import React, { useState, useEffect } from "react";
-import { Font, Margin } from "@/types";
+import { Font, Margin, Column } from "@/types";
 
 type Props = {
   text: string;
@@ -8,6 +8,7 @@ type Props = {
   size: number;
   margin: Margin;
   height: number;
+  column: Column;
 };
 
 type PageProps = {
@@ -18,8 +19,7 @@ type PageProps = {
   height: number;
 };
 
-export default ({ text, font, size, margin, height }: Props) => {
-  const [column, setColumn] = useState<1 | 2>(2);
+export default ({ text, font, size, margin, height, column }: Props) => {
   const [left, right] = splitBalanced(text);
 
   return (

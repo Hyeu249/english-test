@@ -13,7 +13,7 @@ import {
 } from "tamagui";
 import { SquareMinus, SquareEqual } from "@tamagui/lucide-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Font, Margin } from "@/types";
+import { Font, Margin, Column } from "@/types";
 
 type Props = {
   font: string;
@@ -24,6 +24,8 @@ type Props = {
   setMargin: React.Dispatch<React.SetStateAction<Margin>>;
   height: number;
   setHeight: React.Dispatch<React.SetStateAction<number>>;
+  column: Column;
+  setColumn: React.Dispatch<React.SetStateAction<Column>>;
 };
 
 export default function LayoutEditer({
@@ -35,6 +37,8 @@ export default function LayoutEditer({
   setMargin,
   height,
   setHeight,
+  column,
+  setColumn,
 }: Props) {
   return (
     <YStack flex={1}>
@@ -47,7 +51,7 @@ export default function LayoutEditer({
       <PageColorEditer />
 
       <Divider />
-      <ColumnEditer />
+      <ColumnEditer column={column} setColumn={setColumn} />
 
       <Divider />
       <MarginEditor margin={margin} setMargin={setMargin} />
@@ -346,10 +350,11 @@ export function OnePageIcon({ selected = false }: { selected: boolean }) {
     </YStack>
   );
 }
-
-export function ColumnEditer() {
-  const [page, setPage] = useState(2);
-
+type ColumnProps = {
+  column: Column;
+  setColumn: React.Dispatch<React.SetStateAction<Column>>;
+};
+export function ColumnEditer({ column, setColumn }: ColumnProps) {
   return (
     <YStack width={"50%"}>
       <Text fontSize={16} fontWeight={"600"}>
@@ -359,9 +364,9 @@ export function ColumnEditer() {
         <YStack
           justifyContent="center"
           alignItems="center"
-          onPress={() => setPage(2)}
+          onPress={() => setColumn(2)}
         >
-          <TwoPageIcon selected={page == 2} />
+          <TwoPageIcon selected={column == 2} />
           <Text fontSize={13} marginTop={"$1.5"}>
             Two Colunms
           </Text>
@@ -369,9 +374,9 @@ export function ColumnEditer() {
         <YStack
           justifyContent="center"
           alignItems="center"
-          onPress={() => setPage(1)}
+          onPress={() => setColumn(1)}
         >
-          <OnePageIcon selected={page == 1} />
+          <OnePageIcon selected={column == 1} />
           <Text fontSize={13} marginTop={"$1.5"}>
             One Colunms
           </Text>
