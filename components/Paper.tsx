@@ -1,4 +1,4 @@
-import { ScrollView, Text, XStack, Paragraph, Spinner } from "tamagui";
+import { ScrollView, Text, XStack, Paragraph, Spinner, Theme } from "tamagui";
 import React, { useState, useEffect } from "react";
 import { Font, Margin, Column, Language } from "@/types";
 import { sendMessageStream, translateAudio } from "@/api/index";
@@ -55,24 +55,26 @@ export default ({
     <ScrollView
       contentContainerStyle={{ padding: 20, paddingHorizontal: margin }}
     >
-      {isLoading && <Spinner size="large" color="#007AFF" />}
-      {column == 1 ? (
-        <OnePage
-          left={left}
-          right={right}
-          font={font}
-          size={size}
-          height={height}
-        />
-      ) : (
-        <TwoPage
-          left={left}
-          right={right}
-          font={font}
-          size={size}
-          height={height}
-        />
-      )}
+      <Theme name="blue">
+        {isLoading && <Spinner size="large" color="#007AFF" />}
+        {column == 1 ? (
+          <OnePage
+            left={left}
+            right={right}
+            font={font}
+            size={size}
+            height={height}
+          />
+        ) : (
+          <TwoPage
+            left={left}
+            right={right}
+            font={font}
+            size={size}
+            height={height}
+          />
+        )}
+      </Theme>
     </ScrollView>
   );
 };
