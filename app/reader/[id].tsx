@@ -106,7 +106,7 @@ export default function ReaderScreen() {
   const [length, setLength] = useState<number>(0);
   const [font, setFont] = useState<Font>("Bookerly");
   const [size, setSize] = useState<number>(18);
-  const [margin, setMargin] = useState<Margin>(0);
+  const [margin, setMargin] = useState<Margin>(100);
   const [height, setHeight] = useState<number>(36);
   const [column, setColumn] = useState<Column>(2);
 
