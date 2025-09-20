@@ -41,7 +41,7 @@ export default function LayoutEditer({
   setColumn,
 }: Props) {
   return (
-    <YStack flex={1}>
+    <ScrollView flex={1}>
       <FontEditer font={font} setFont={setFont} />
 
       <Divider />
@@ -55,7 +55,10 @@ export default function LayoutEditer({
 
       <Divider />
       <MarginEditor margin={margin} setMargin={setMargin} />
-    </YStack>
+
+      <Divider />
+      <LineSpacingEditer height={height} setHeight={setHeight} />
+    </ScrollView>
   );
 }
 
@@ -206,6 +209,39 @@ export function FontSizeEditer({ size, setSize }: SizeProps) {
     </XStack>
   );
 }
+
+type LineSpacingProps = {
+  height: number;
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
+};
+export function LineSpacingEditer({ height, setHeight }: LineSpacingProps) {
+  return (
+    <YStack>
+      <Text fontSize={16} fontWeight={"600"} marginBottom={"$7"}>
+        Font
+      </Text>
+
+      {/* Slider */}
+      <Slider
+        flex={1}
+        defaultValue={[50]}
+        min={17}
+        max={70}
+        step={1}
+        value={[height]}
+        onValueChange={(vals) => {
+          setHeight(vals[0]);
+        }}
+      >
+        <Slider.Track>
+          <Slider.TrackActive />
+        </Slider.Track>
+        <Slider.Thumb size="$2" index={0} circular />
+      </Slider>
+    </YStack>
+  );
+}
+
 export function PageColorEditer() {
   const [color, setColor] = useState<
     "$white1" | "$black1" | "#fbefd8" | "#c5e7ce"
