@@ -73,7 +73,7 @@ function splitBalanced(text: string): [string, string] {
   const half = Math.floor(clean.length / 2);
 
   // tìm dấu chấm gần nhất về phía trước
-  let cut = clean.lastIndexOf(".", half);
+  let cut = clean.lastIndexOf(" ", half);
   if (cut === -1) cut = half; // không có dấu chấm
 
   const left = clean.slice(0, cut + 1).trim();

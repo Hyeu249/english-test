@@ -72,7 +72,6 @@ export function Line({
 }
 
 export default function Outline({ outline, setIdnum }: Props) {
-  console.log("outline: ", outline);
   return (
     <YStack flex={1}>
       <Text fontSize={16} fontWeight={"600"} padding={15}>
