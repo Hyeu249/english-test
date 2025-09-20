@@ -1,11 +1,13 @@
 import { ScrollView, Text, XStack, Paragraph } from "tamagui";
 import React, { useState, useEffect } from "react";
-import { Font } from "@/types";
+import { Font, Margin } from "@/types";
 
 type Props = {
   text: string;
   font: string;
   size: number;
+  margin: Margin;
+  height: number;
 };
 
 type PageProps = {
@@ -13,30 +15,45 @@ type PageProps = {
   right: string;
   font: string;
   size: number;
+  height: number;
 };
 
-export default ({ text, font, size }: Props) => {
+export default ({ text, font, size, margin, height }: Props) => {
   const [column, setColumn] = useState<1 | 2>(2);
   const [left, right] = splitBalanced(text);
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 20 }}>
+    <ScrollView
+      contentContainerStyle={{ padding: 20, paddingHorizontal: margin }}
+    >
       {column == 1 ? (
-        <OnePage left={left} right={right} font={font} size={size} />
+        <OnePage
+          left={left}
+          right={right}
+          font={font}
+          size={size}
+          height={height}
+        />
       ) : (
-        <TwoPage left={left} right={right} font={font} size={size} />
+        <TwoPage
+          left={left}
+          right={right}
+          font={font}
+          size={size}
+          height={height}
+        />
       )}
     </ScrollView>
   );
 };
 
-export function OnePage({ left, right, font, size }: PageProps) {
+export function OnePage({ left, right, font, size, height }: PageProps) {
   return (
     <XStack gap={60}>
       <Text
         fontFamily={`$${font}`}
         fontSize={size}
-        lineHeight={36}
+        lineHeight={height}
         textAlign="justify"
       >
         {formatParagraphs(left)}
@@ -47,14 +64,14 @@ export function OnePage({ left, right, font, size }: PageProps) {
   );
 }
 
-export function TwoPage({ left, right, font, size }: PageProps) {
+export function TwoPage({ left, right, font, size, height }: PageProps) {
   return (
     <XStack gap={60}>
       <Text
         width={"50%"}
         fontFamily={`$${font}`}
         fontSize={size}
-        lineHeight={36}
+        lineHeight={height}
         textAlign="justify"
       >
         {formatParagraphs(left)}
@@ -63,7 +80,7 @@ export function TwoPage({ left, right, font, size }: PageProps) {
         width={"50%"}
         fontFamily={`$${font}`}
         fontSize={size}
-        lineHeight={36}
+        lineHeight={height}
         textAlign="justify"
       >
         {formatParagraphs(right)}

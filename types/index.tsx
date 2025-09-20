@@ -1,1 +1,2 @@
 export type Font = "AmazonEmber" | "Bookerly" | "Bookerly2";
+export type Margin = 0 | 50 | 100;

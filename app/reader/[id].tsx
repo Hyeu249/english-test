@@ -18,10 +18,12 @@ import Drawer from "@/components/Drawer";
 import LayoutEditer from "@/components/LayoutEditer";
 import Outline from "@/components/Outline";
 import { getDocList } from "@/api/action";
-import { Font } from "@/types";
+import { Font, Margin } from "@/types";
 
 export function DrawersHeader({
   font,
+  margin,
+  height,
   size,
   setSize,
   title,
@@ -29,12 +31,18 @@ export function DrawersHeader({
   id,
   setIdnum,
   setFont,
+  setMargin,
+  setHeight,
 }: {
+  margin: Margin;
+  height: number;
   title: string;
   outline: any[];
   font: string;
   id: string;
   size: number;
+  setMargin: React.Dispatch<React.SetStateAction<Margin>>;
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
   setSize: React.Dispatch<React.SetStateAction<number>>;
   setFont: React.Dispatch<React.SetStateAction<Font>>;
   setIdnum: React.Dispatch<React.SetStateAction<number>>;
@@ -71,6 +79,10 @@ export function DrawersHeader({
           setFont={setFont}
           size={size}
           setSize={setSize}
+          margin={margin}
+          setMargin={setMargin}
+          height={height}
+          setHeight={setHeight}
         />
       </Drawer>
       <Drawer padding={10} isOpen={openOutline} setOpen={setOpenOutline}>
@@ -90,6 +102,8 @@ export default function ReaderScreen() {
   const [length, setLength] = useState<number>(0);
   const [font, setFont] = useState<Font>("Bookerly");
   const [size, setSize] = useState<number>(18);
+  const [margin, setMargin] = useState<Margin>(0);
+  const [height, setHeight] = useState<number>(36);
 
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -154,6 +168,10 @@ export default function ReaderScreen() {
         setFont={setFont}
         size={size}
         setSize={setSize}
+        margin={margin}
+        setMargin={setMargin}
+        height={height}
+        setHeight={setHeight}
       />
       <XStack flex={1}>
         <MoveTab
@@ -161,7 +179,13 @@ export default function ReaderScreen() {
           onPress={() => setPage((prev) => (prev > 1 ? prev - 1 : 1))}
         />
         <XStack flex={1}>
-          <Paper font={font} text={text} size={size} />
+          <Paper
+            text={text}
+            font={font}
+            size={size}
+            margin={margin}
+            height={height}
+          />
         </XStack>
         <MoveTab
           type="right"

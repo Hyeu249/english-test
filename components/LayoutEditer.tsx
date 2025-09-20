@@ -13,16 +13,29 @@ import {
 } from "tamagui";
 import { SquareMinus, SquareEqual } from "@tamagui/lucide-icons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Font } from "@/types";
+import { Font, Margin } from "@/types";
 
 type Props = {
   font: string;
   setFont: React.Dispatch<React.SetStateAction<Font>>;
   size: number;
   setSize: React.Dispatch<React.SetStateAction<number>>;
+  margin: Margin;
+  setMargin: React.Dispatch<React.SetStateAction<Margin>>;
+  height: number;
+  setHeight: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export default function LayoutEditer({ font, setFont, size, setSize }: Props) {
+export default function LayoutEditer({
+  font,
+  setFont,
+  size,
+  setSize,
+  margin,
+  setMargin,
+  height,
+  setHeight,
+}: Props) {
   return (
     <YStack flex={1}>
       <FontEditer font={font} setFont={setFont} />
@@ -37,13 +50,19 @@ export default function LayoutEditer({ font, setFont, size, setSize }: Props) {
       <ColumnEditer />
 
       <Divider />
-      <MarginEditor />
+      <MarginEditor margin={margin} setMargin={setMargin} />
     </YStack>
   );
 }
 
-export function MarginEditor() {
-  const [margin, setMargin] = useState<number>(3);
+type MarginProps = {
+  margin: Margin;
+  setMargin: React.Dispatch<React.SetStateAction<Margin>>;
+};
+export function MarginEditor({ margin, setMargin }: MarginProps) {
+  const narrow = 0;
+  const medium = 50;
+  const wide = 100;
   return (
     <YStack width={"65%"}>
       <Text fontSize={16} fontWeight={"600"}>
@@ -53,9 +72,9 @@ export function MarginEditor() {
         <YStack
           justifyContent="center"
           alignItems="center"
-          onPress={() => setMargin(3)}
+          onPress={() => setMargin(narrow)}
         >
-          <MarginSelector size="narrow" selected={margin == 3} />
+          <MarginSelector size="narrow" selected={margin == narrow} />
           <Text fontSize={13} marginTop={"$1.5"}>
             Narrow
           </Text>
@@ -63,9 +82,9 @@ export function MarginEditor() {
         <YStack
           justifyContent="center"
           alignItems="center"
-          onPress={() => setMargin(2)}
+          onPress={() => setMargin(medium)}
         >
-          <MarginSelector size="medium" selected={margin == 2} />
+          <MarginSelector size="medium" selected={margin == medium} />
           <Text fontSize={13} marginTop={"$1.5"}>
             Medium
           </Text>
@@ -74,9 +93,9 @@ export function MarginEditor() {
         <YStack
           justifyContent="center"
           alignItems="center"
-          onPress={() => setMargin(1)}
+          onPress={() => setMargin(wide)}
         >
-          <MarginSelector size="wide" selected={margin == 1} />
+          <MarginSelector size="wide" selected={margin == wide} />
           <Text fontSize={13} marginTop={"$1.5"}>
             Wide
           </Text>
