@@ -18,9 +18,10 @@ import Drawer from "@/components/Drawer";
 import LayoutEditer from "@/components/LayoutEditer";
 import Outline from "@/components/Outline";
 import { getDocList } from "@/api/action";
-import { Font, Margin, Column } from "@/types";
+import { Font, Margin, Column, Language } from "@/types";
 
 export function DrawersHeader({
+  language,
   font,
   margin,
   height,
@@ -34,6 +35,7 @@ export function DrawersHeader({
   setMargin,
   setHeight,
   setColumn,
+  setLanguage,
 }: {
   margin: Margin;
   height: number;
@@ -42,12 +44,14 @@ export function DrawersHeader({
   font: string;
   size: number;
   column: Column;
+  language: Language;
   setMargin: React.Dispatch<React.SetStateAction<Margin>>;
   setHeight: React.Dispatch<React.SetStateAction<number>>;
   setSize: React.Dispatch<React.SetStateAction<number>>;
   setFont: React.Dispatch<React.SetStateAction<Font>>;
   setIdnum: React.Dispatch<React.SetStateAction<number>>;
   setColumn: React.Dispatch<React.SetStateAction<Column>>;
+  setLanguage: React.Dispatch<React.SetStateAction<Language>>;
 }) {
   const navigation = useNavigation();
   const [openLayoutEditer, setOpenLayoutEditer] = useState(false);
@@ -66,12 +70,14 @@ export function DrawersHeader({
       ),
       headerRight: () => (
         <RightReaderHeader
+          language={language}
+          setLanguage={setLanguage}
           setOpenOutline={setOpenOutline}
           setOpenLayoutEditer={setOpenLayoutEditer}
         />
       ),
     });
-  }, [title]);
+  }, [title, language]);
 
   return (
     <>
@@ -109,6 +115,7 @@ export default function ReaderScreen() {
   const [margin, setMargin] = useState<Margin>(100);
   const [height, setHeight] = useState<number>(36);
   const [column, setColumn] = useState<Column>(2);
+  const [language, setLanguage] = useState<Language>("");
 
   const { id } = useLocalSearchParams<{ id: string }>();
 
@@ -178,6 +185,8 @@ export default function ReaderScreen() {
         setHeight={setHeight}
         column={column}
         setColumn={setColumn}
+        language={language}
+        setLanguage={setLanguage}
       />
       <XStack flex={1}>
         <MoveTab
@@ -192,6 +201,7 @@ export default function ReaderScreen() {
             margin={margin}
             height={height}
             column={column}
+            language={language}
           />
         </XStack>
         <MoveTab

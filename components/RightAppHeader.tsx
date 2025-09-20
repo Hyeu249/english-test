@@ -10,75 +10,7 @@ import {
   PopoverClose,
 } from "tamagui";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-
-type Option = {
-  label: string;
-  value: string;
-  onSelect: (value: string) => void;
-};
-
-type DropdownOption = {
-  title?: string;
-  icon?: React.ReactNode;
-  options: Option[];
-  value: string;
-};
-
-export function ButtonDropdown({
-  title,
-  icon,
-  value,
-  options,
-}: DropdownOption) {
-  return (
-    <Popover>
-      <PopoverTrigger>
-        <Button size="$3" backgroundColor="transparent">
-          <XStack alignItems="center" gap="$2">
-            {icon && icon}
-            {title && <Text>{title}</Text>}
-          </XStack>
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        borderWidth={1}
-        borderColor="$borderColor"
-        enterStyle={{ y: -10, opacity: 0 }}
-        exitStyle={{ y: -10, opacity: 0 }}
-        elevate
-        animation={[
-          "quick",
-          {
-            opacity: {
-              overshootClamping: true,
-            },
-          },
-        ]}
-        padding={"$2"}
-      >
-        <YStack cursor="pointer" gap="$1" minWidth={240}>
-          {options.map((res) => {
-            return (
-              <PopoverClose asChild key={res.value}>
-                <XStack
-                  onPress={() => res.onSelect(res.value)}
-                  backgroundColor={
-                    value === res.value ? "#D0E8FF" : "transparent"
-                  }
-                  paddingHorizontal={14}
-                  paddingVertical={12}
-                  borderRadius={"$4"}
-                >
-                  <Text>{res.label}</Text>
-                </XStack>
-              </PopoverClose>
-            );
-          })}
-        </YStack>
-      </PopoverContent>
-    </Popover>
-  );
-}
+import ButtonDropdown from "@/components/ButtonDropdown";
 
 export default function RightAppHeader() {
   const [filter, setFilter] = useState("Kindgayeunlimited");

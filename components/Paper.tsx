@@ -1,6 +1,7 @@
-import { ScrollView, Text, XStack, Paragraph } from "tamagui";
+import { ScrollView, Text, XStack, Paragraph, Spinner } from "tamagui";
 import React, { useState, useEffect } from "react";
-import { Font, Margin, Column } from "@/types";
+import { Font, Margin, Column, Language } from "@/types";
+import { sendMessageStream, translateAudio } from "@/api/index";
 
 type Props = {
   text: string;
@@ -9,6 +10,7 @@ type Props = {
   margin: Margin;
   height: number;
   column: Column;
+  language: Language;
 };
 
 type PageProps = {
@@ -19,13 +21,41 @@ type PageProps = {
   height: number;
 };
 
-export default ({ text, font, size, margin, height, column }: Props) => {
-  const [left, right] = splitBalanced(text);
+export default ({
+  text,
+  font,
+  size,
+  margin,
+  height,
+  column,
+  language,
+}: Props) => {
+  const [translated, setTranslated] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    const init = async () => {
+      const input = `
+              Translate the following text fully and naturally into ${language}. 
+              Write every word of your response only in ${language}, 
+              without adding explanations or any other languages:
+              ${text}
+      
+          `;
+      const bot_text = await sendMessageStream(input);
+      setTranslated(bot_text);
+      setIsLoading(false);
+    };
+    if (language === "") return setTranslated(text);
+    setIsLoading(true);
+    init();
+  }, [text, language]);
+  const [left, right] = splitBalanced(translated);
 
   return (
     <ScrollView
       contentContainerStyle={{ padding: 20, paddingHorizontal: margin }}
     >
+      {isLoading && <Spinner size="large" color="#007AFF" />}
       {column == 1 ? (
         <OnePage
           left={left}
