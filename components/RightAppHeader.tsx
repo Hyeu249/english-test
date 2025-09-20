@@ -11,6 +11,7 @@ import {
 } from "tamagui";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import ButtonDropdown from "@/components/ButtonDropdown";
+import { handlePickDocument } from "@/api/action";
 
 export default function RightAppHeader() {
   const [filter, setFilter] = useState("Kindgayeunlimited");
@@ -86,7 +87,11 @@ export default function RightAppHeader() {
       <ButtonDropdown
         icon={<FontAwesome name="ellipsis-v" size={18} color="#000" />}
         options={[
-          { label: "Filter by Date", value: "date", onSelect: () => {} },
+          {
+            label: "Tải sách lên",
+            value: "load_pdf",
+            onSelect: handlePickDocument,
+          },
           {
             label: "Filter by Category",
             value: "category",
