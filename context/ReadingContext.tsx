@@ -47,7 +47,7 @@ export const ReadingProvider = ({
   const [length, setLength] = useState<number>(0);
   const [idnum, setIdnum] = useState(0);
   const [language, setLanguage] = useState<Language>("");
-  const isAiVoice = true;
+  const isAiVoice = false;
 
   const pageData = useMemo(() => {
     return book.find((res) => res.page === page);
