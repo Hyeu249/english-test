@@ -33,7 +33,7 @@ export const SystemVoiceProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { pageData, setIsLoading, language } = useReadingContext();
+  const { pageData, setIsLoading, language, page } = useReadingContext();
   const [isPlay, setIsPlay] = useState(false);
 
   const [cWordIndex, setCWordIndex] = useState<number | null>(null);
@@ -110,6 +110,13 @@ export const SystemVoiceProvider = ({
       setIsPlay(true);
     }
   };
+
+  useEffect(() => {
+    Speech.stop();
+
+    setCWordIndex(null);
+    setIsPlay(false);
+  }, [page]);
 
   return (
     <ThemeContext.Provider
