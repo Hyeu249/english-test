@@ -235,7 +235,7 @@ function BookGrid() {
         ...data.map((res: any) => {
           const name = res?.name ? res.name : "";
           return {
-            title: `${name.slice(0, 26)}...`,
+            title: `${name.slice(0, 20)}...`,
             author: res.author,
             image: url + "/web/content/" + res.image_id,
             id: res.id,

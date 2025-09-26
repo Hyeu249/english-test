@@ -62,6 +62,7 @@ export function Line({ line, text }: { text: string; line: any }) {
 
 export default function Outline() {
   const { outline } = useReadingContext();
+  const newOutline = outline ? outline : [];
 
   return (
     <YStack flex={1}>
@@ -69,7 +70,7 @@ export default function Outline() {
         Tables of Contents
       </Text>
       <ScrollView paddingBottom={10}>
-        {outline.map((line, index) => (
+        {newOutline.map((line, index) => (
           <Line key={index} text="Review" line={line} />
         ))}
       </ScrollView>
