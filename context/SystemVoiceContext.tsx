@@ -33,7 +33,7 @@ export const SystemVoiceProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { pageData, setIsLoading, language, page } = useReadingContext();
+  const { pageData, setIsLoading, language, setPage } = useReadingContext();
   const [isPlay, setIsPlay] = useState(false);
 
   const [cWordIndex, setCWordIndex] = useState<number | null>(null);
@@ -74,13 +74,13 @@ export const SystemVoiceProvider = ({
 
   const hello1 = isIndex ? words.slice(textTo, cWordIndex + 30) : "";
   const hello2 = isIndex ? words.slice(textTo, cWordIndex) : "";
-  const hello3 = isIndex ? hello1?.split(hello2)?.[1].split(" ")?.[0] : "";
+  const hello3 = isIndex ? hello1?.split(hello2)?.[1]?.split(" ")?.[0] : "";
 
   const before = words.slice(0, textTo);
   const highlight = isIndex
-    ? words.slice(textTo, cWordIndex + hello3.length)
+    ? words.slice(textTo, cWordIndex + hello3?.length)
     : "";
-  const after = isIndex ? words.slice(cWordIndex + hello3.length, -1) : "";
+  const after = isIndex ? words.slice(cWordIndex + hello3?.length, -1) : "";
 
   const speak = () => {
     setCWordIndex(null);
@@ -92,11 +92,26 @@ export const SystemVoiceProvider = ({
         if (event.name === "word") setCWordIndex(event.charIndex);
       },
       onDone: () => {
-        setCWordIndex(null);
-        setIsPlay(false);
+        setPage((prev) => prev + 1);
       },
     });
   };
+
+  useEffect(() => {
+    if (isPlay) speak();
+  }, [words]);
+
+  useEffect(() => {
+    setCWordIndex(null);
+  }, [words]);
+
+  useEffect(() => {
+    return () => {
+      Speech.stop();
+      setCWordIndex(null);
+      setIsPlay(false);
+    };
+  }, []);
 
   const togglePlay = async () => {
     if (cWordIndex === null) {
@@ -110,17 +125,6 @@ export const SystemVoiceProvider = ({
       setIsPlay(true);
     }
   };
-
-  useEffect(() => {
-    Speech.stop();
-    setCWordIndex(null);
-    setIsPlay(false);
-    return () => {
-      Speech.stop();
-      setCWordIndex(null);
-      setIsPlay(false);
-    };
-  }, [page]);
 
   return (
     <ThemeContext.Provider
