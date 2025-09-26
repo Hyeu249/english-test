@@ -54,3 +54,22 @@ export const getDocList = async (
     return [];
   }
 };
+
+export const update_cpage = async (record_id: number, c_page: number) => {
+  try {
+    const res = await axios.post(
+      url + `/api/method/studio.sheet/update_cpage`,
+      {
+        params: {
+          record_id: record_id,
+          c_page: c_page,
+        },
+      }
+    );
+
+    return res.data;
+  } catch (error) {
+    console.log("error: ", error);
+    return [];
+  }
+};

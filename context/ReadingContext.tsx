@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import { getDocList } from "@/api/action";
+import { getDocList, update_cpage } from "@/api/action";
 import { formatParagraphs } from "@/utils/index";
 import { Font, Margin, Column, Language } from "@/types";
 import { sendMessageStream } from "@/api/index";
@@ -46,6 +46,7 @@ export const ReadingProvider = ({
   const [outline, setOutline] = useState<any[]>([]);
   const [length, setLength] = useState<number>(0);
   const [idnum, setIdnum] = useState(0);
+  const [c_page, setc_page] = useState<null | number>(null);
   const [language, setLanguage] = useState<Language>("");
   const isAiVoice = false;
 
@@ -55,10 +56,20 @@ export const ReadingProvider = ({
 
   useEffect(() => {
     const init = async () => {
+      const result = await update_cpage(Number(id), page);
+    };
+
+    if (c_page == page || c_page == null) return;
+
+    init();
+  }, [page, id, c_page]);
+
+  useEffect(() => {
+    const init = async () => {
       const sheet = await getDocList(
         "studio.sheet",
         [["id", "=", Number(id)]],
-        ["name", "outline"]
+        ["name", "outline", "c_page"]
       );
       console.log("sheet: ", sheet);
       const data = await getDocList(
@@ -70,6 +81,8 @@ export const ReadingProvider = ({
       setIsLoading(false);
       if (sheet.length) setTitle(sheet[0].name);
       if (sheet.length) setOutline(sheet[0].outline);
+      if (sheet.length) setc_page(sheet[0].c_page);
+      if (sheet.length) setPage(sheet[0].c_page);
 
       if (data.length) setBook(data);
       if (data.length) setLength(data.length);
