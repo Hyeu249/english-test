@@ -113,9 +113,13 @@ export const SystemVoiceProvider = ({
 
   useEffect(() => {
     Speech.stop();
-
     setCWordIndex(null);
     setIsPlay(false);
+    return () => {
+      Speech.stop();
+      setCWordIndex(null);
+      setIsPlay(false);
+    };
   }, [page]);
 
   return (
@@ -146,75 +150,3 @@ export const useSystemVoiceContext = () => {
   }
   return context;
 };
-
-// const speak = () => {
-//   setCWordIndex(null);
-//   Speech.stop();
-
-//   Speech.speak(formated_text, {
-//     voice: voice,
-//     onBoundary: (event: any) => {
-//       if (event.name === "word") setCWordIndex(event.charIndex);
-//     },
-//     onDone: () => {
-//       setCWordIndex(null);
-//       setIsplay(false);
-//     },
-//   });
-// };
-
-// const handlePlay = async () => {
-//   if (true) {
-//     if (isPlay) {
-//       player.pause();
-//       setIsplay(false);
-//     } else {
-//       player.play();
-//       setIsplay(true);
-//     }
-//     return;
-//   }
-
-//   if (cWordIndex === null) {
-//     speak();
-//     setIsplay(true);
-//   } else if (isPlay) {
-//     Speech.pause();
-//     setIsplay(false);
-//     console.log("pause");
-//   } else {
-//     Speech.resume();
-//     setIsplay(true);
-//     console.log("resume");
-//   }
-// };
-
-// const renderContent = () => {
-//   if (cWordIndex === null) {
-//     return formated_text; // render toàn bộ text nếu chưa highlight
-//   }
-
-//   const indexBase = 35;
-//   const textTo = cWordIndex <= indexBase ? 0 : cWordIndex - indexBase;
-//   const hello1 = formated_text.slice(textTo, cWordIndex + 30);
-//   const hello2 = formated_text.slice(textTo, cWordIndex);
-//   const hello3 = hello1.split(hello2)?.[1].split(" ")?.[0];
-
-//   const before = formated_text.slice(0, textTo);
-//   const highlight = formated_text.slice(textTo, cWordIndex + hello3.length);
-//   const after = formated_text.slice(cWordIndex + hello3.length, -1);
-
-//   return (
-//     <>
-//       {before && `${before}`}
-//       <Text
-//         color={`$blue11`}
-//         backgroundColor={"$blue5"}
-//         fontFamily={`$${font}`}
-//       >
-//         {highlight}
-//       </Text>
-//       {after && `${after}`}
-//     </>
-//   );
-// };
